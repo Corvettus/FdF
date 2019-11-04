@@ -3,42 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medesmon <medesmon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tlynesse <tlynesse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/20 04:31:44 by medesmon          #+#    #+#             */
-/*   Updated: 2019/09/26 23:13:30 by medesmon         ###   ########.fr       */
+/*   Created: 2018/11/24 08:31:14 by tlynesse          #+#    #+#             */
+/*   Updated: 2019/10/24 15:12:08 by tlynesse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	isspace(int c)
+static int	ft_sign(const char **s)
 {
-	return ((9 <= c && c <= 13) || c == 32);
+	if (**s == '-')
+	{
+		(*s)++;
+		return (-1);
+	}
+	else if (**s == '+')
+		(*s)++;
+	return (1);
 }
 
 int			ft_atoi(const char *str)
 {
-	int	num;
-	int	isneg;
-	int	temp;
+	intmax_t	res;
+	int			fl;
+	long		tmp;
 
-	isneg = 1;
-	num = 0;
-	while (isspace(*str))
+	res = 0;
+	while (ft_isspace(*str))
 		str++;
-	if (*str == '-')
-		isneg = -1;
-	if (*str == '-' || *str == '+')
-		str++;
-	while (ft_isdigit(*str))
+	fl = ft_sign(&str);
+	while (*str >= '0' && *str <= '9')
 	{
-		temp = num;
-		num = num * 10 + isneg * (*str++ - '0');
-		if (temp > num && temp > 0)
-			return (-1);
-		if (temp < num && temp < 0)
+		tmp = res;
+		res = res * 10 + fl * (long)(*(str++) - '0');
+		if ((tmp < 0) && (tmp < res))
 			return (0);
+		if ((tmp > 0) && (tmp > res))
+			return (-1);
 	}
-	return (num);
+	return ((int)(res));
 }

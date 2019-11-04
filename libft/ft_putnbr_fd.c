@@ -3,32 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medesmon <medesmon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tlynesse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/20 04:36:37 by medesmon          #+#    #+#             */
-/*   Updated: 2019/09/20 04:36:39 by medesmon         ###   ########.fr       */
+/*   Created: 2018/11/27 11:23:07 by tlynesse          #+#    #+#             */
+/*   Updated: 2018/11/27 13:00:20 by tlynesse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putnbr_fd(long long int n, int fd)
+void	ft_putnbr_fd(int n, int fd)
 {
-	if (n == (-9223372036854775807 - 1))
+	unsigned int	nb;
+	char			c;
+
+	if (fd)
 	{
-		ft_putstr_fd("-9223372036854775808", fd);
-		return ;
-	}
-	if (n < 0)
-	{
-		ft_putchar_fd('-', fd);
-		n = n * -1;
-	}
-	if (n < 10)
-		ft_putchar_fd('0' + n, fd);
-	else
-	{
-		ft_putnbr_fd(n / 10, fd);
-		ft_putchar_fd('0' + n % 10, fd);
+		if (n < 0)
+		{
+			write(fd, "-", 1);
+			nb = (unsigned int)(-n);
+		}
+		else
+			nb = (unsigned int)n;
+		if (nb < 10)
+		{
+			c = '0' + nb;
+			write(fd, &c, 1);
+		}
+		else
+		{
+			ft_putnbr_fd(nb / 10, fd);
+			ft_putnbr_fd(nb % 10, fd);
+		}
 	}
 }

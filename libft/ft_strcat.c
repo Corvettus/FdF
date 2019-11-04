@@ -3,33 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcat.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medesmon <medesmon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tlynesse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/20 04:37:17 by medesmon          #+#    #+#             */
-/*   Updated: 2019/09/20 04:37:18 by medesmon         ###   ########.fr       */
+/*   Created: 2018/11/22 18:30:01 by tlynesse          #+#    #+#             */
+/*   Updated: 2018/11/30 04:46:37 by tlynesse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strcat(char *dst, const char *ptr)
+char	*ft_strcat(char *s1, const char *s2)
 {
-	int		i;
-	int		j;
-	char	*new;
+	char	*temp;
 
-	if (!(new = malloc(sizeof(char) * (ft_strlen(dst) + ft_strlen(ptr) + 1))))
-		return (NULL);
-	j = 0;
-	i = 0;
-	while (dst[i])
-		i++;
-	while (ptr[j])
-	{
-		dst[i] = ptr[j];
-		i++;
-		j++;
-	}
-	dst[i] = '\0';
-	return (ft_strcpy(new, dst));
+	temp = s1;
+	while (*temp)
+		temp++;
+	while (*s2)
+		*(temp++) = *(s2++);
+	*temp = 0;
+	return (s1);
 }

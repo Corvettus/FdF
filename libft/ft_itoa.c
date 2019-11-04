@@ -3,31 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medesmon <medesmon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tlynesse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/20 04:33:03 by medesmon          #+#    #+#             */
-/*   Updated: 2019/09/20 04:43:04 by medesmon         ###   ########.fr       */
+/*   Created: 2018/11/25 23:23:01 by tlynesse          #+#    #+#             */
+/*   Updated: 2018/12/09 16:58:43 by tlynesse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char		*ft_itoa(unsigned long long int n)
+static void	puting_i_to_a(int n, char **res, size_t buf)
 {
-	char					*mem;
-	unsigned int			len;
-	unsigned long long int	neg;
+	unsigned int	k;
 
-	if (!(len = ft_count_num_long_long(n)))
-		return (ft_strdup("0"));
-	neg = n;
-	if (!(mem = ft_strnew(len)))
-		return (NULL);
-	while (neg)
+	k = (n < 0 ? -n : n);
+	while (k)
 	{
-		mem[len - 1] = neg % 10 + '0';
-		neg /= 10;
-		len--;
+		(*res)[--buf] = (char)(k % 10 + '0');
+		k /= 10;
 	}
-	return (mem);
+}
+
+char		*ft_itoa(int n)
+{
+	char	*res;
+	int		k;
+	size_t	buf;
+
+	if (!n)
+		return (ft_strdup("0"));
+	buf = 1;
+	if (n < 0)
+		buf++;
+	k = n;
+	while (k)
+	{
+		buf++;
+		k /= 10;
+	}
+	if (!(res = (char*)malloc(buf * sizeof(char))))
+		return (0);
+	res[--buf] = 0;
+	if (n < 0)
+		*res = '-';
+	puting_i_to_a(n, &res, buf);
+	return (res);
 }

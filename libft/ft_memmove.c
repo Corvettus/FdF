@@ -3,40 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medesmon <medesmon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tlynesse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/20 04:34:23 by medesmon          #+#    #+#             */
-/*   Updated: 2019/09/20 04:34:25 by medesmon         ###   ########.fr       */
+/*   Created: 2018/11/24 07:55:58 by tlynesse          #+#    #+#             */
+/*   Updated: 2018/11/26 13:56:35 by tlynesse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memmove(void *dst, const void *src, size_t n)
+void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	char			*ptr1;
-	char			*ptr2;
-	unsigned int	i;
+	char	*pdst;
+	char	*psrc;
+	size_t	i;
 
-	ptr1 = (char*)dst;
-	ptr2 = (char*)src;
-	if (dst == src)
-		return (dst);
-	i = 0;
-	if (ptr1 > ptr2)
-		while (i < n)
-		{
-			ptr1[n - i - 1] = ptr2[n - i - 1];
-			i++;
-		}
+	pdst = (char*)dst;
+	psrc = (char*)src;
+	if (pdst >= psrc && pdst <= psrc + len - 1)
+	{
+		i = len;
+		while (i-- > 0)
+			pdst[i] = psrc[i];
+	}
 	else
 	{
 		i = 0;
-		while (i < n)
-		{
-			ptr1[i] = ptr2[i];
-			i++;
-		}
+		while (i++ < len)
+			*(pdst++) = *(psrc++);
 	}
 	return (dst);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medesmon <medesmon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tlynesse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/20 04:33:47 by medesmon          #+#    #+#             */
-/*   Updated: 2019/09/20 04:33:49 by medesmon         ###   ########.fr       */
+/*   Created: 2018/11/29 18:15:38 by tlynesse          #+#    #+#             */
+/*   Updated: 2018/12/09 17:01:02 by tlynesse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,21 @@
 
 t_list	*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem))
 {
-	t_list	*newlst;
-	t_list	*lst2;
+	t_list	*res;
+	t_list	*tmp;
 
-	if (!f || !lst)
-		return (NULL);
-	if (!(lst2 = f(lst)))
-		return (NULL);
-	newlst = lst2;
-	while (lst->next)
+	if (!f)
+		return (0);
+	res = 0;
+	while (lst)
 	{
+		if (!(tmp = (t_list*)malloc(sizeof(t_list))))
+			return (ft_free_lst_mem(&res));
+		tmp = (*f)(lst);
+		if (!tmp)
+			return (ft_free_lst_mem(&res));
+		ft_lstaddback(&res, tmp);
 		lst = lst->next;
-		if (!(lst2->next = f(lst)))
-		{
-			while (newlst)
-			{
-				lst2 = newlst->next;
-				free(newlst);
-				newlst = lst2;
-			}
-			return (NULL);
-		}
-		lst2 = lst2->next;
 	}
-	return (newlst);
+	return (res);
 }

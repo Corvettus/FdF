@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medesmon <medesmon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tlynesse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/20 04:32:52 by medesmon          #+#    #+#             */
-/*   Updated: 2019/09/20 04:32:53 by medesmon         ###   ########.fr       */
+/*   Created: 2018/11/24 03:11:33 by tlynesse          #+#    #+#             */
+/*   Updated: 2018/11/24 03:19:10 by tlynesse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,5 @@
 
 int	ft_isascii(int c)
 {
-	if (c >= 0 && c <= 127)
-		return (1);
-	else
-		return (0);
+	return ((c >= 0 && c <= 127) ? 1 : 0);
 }

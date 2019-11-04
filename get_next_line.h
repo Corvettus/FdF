@@ -3,21 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medesmon <medesmon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tlynesse <tlynesse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/21 05:16:52 by medesmon          #+#    #+#             */
-/*   Updated: 2019/09/26 21:35:33 by medesmon         ###   ########.fr       */
+/*   Created: 2018/12/14 18:39:47 by tlynesse          #+#    #+#             */
+/*   Updated: 2019/11/04 18:33:45 by tlynesse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# define BUFF_SIZE 100
+# define BUFF_SIZE 21
 # define FD_MAX_NUM 4864
 
+# include <sys/types.h>
 # include "./libft/libft.h"
 
-int		get_next_line(const int fd, char **line);
+int	get_next_line(const int fd, char **line);
 
 #endif

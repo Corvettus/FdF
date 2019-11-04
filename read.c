@@ -1,20 +1,20 @@
 # include "fdf.h"
-# include "get_next_line.h"
-#include <fcntl.h>
 
-t_return_read_file	read_file(int argc, char **argv)
+t_mlx	*read_file(int ac, char **av)
 {
-	t_return_read_file	ret;
+	t_mlx	*ret;
 	int		fd;
 	char	*line;
 	int		i;
 	int		j;
+	int		prev_k;
 	int		k;
-	int		**table;
-	int		ret_i;
-	int		ret_j;
+	int		gnl_ret;
 
-	fd = open(argv[1], 0);
+	if ((ret = (t_mlx*)malloc(sizeof(t_mlx))) == NULL ||
+	(ret = (void*)malloc(sizeof(void))) == NULL)
+		return (free_mlx_ptr(&ret));
+	fd = open(av[1], 0);
 	i = 0;
 	while (get_next_line(fd, &line))
 	{
@@ -30,21 +30,23 @@ t_return_read_file	read_file(int argc, char **argv)
 		}
 		i++;
 	}
-	ret_i = i;
-	ret_j = k;
-	table = (int **)malloc(sizeof(int *) * ret_i);
+	ret->max.y = i;
+	ret->max.x = k;
+	if ((ret->field = (t_point**)malloc(sizeof(t_point*) * ret->max.y)) == NULL)
+		return (free_mlx_ptr(&ret));
 	i = -1;
-	while (++i < ret_i)
-		table[i] = (int *)malloc(sizeof(int) * ret_j);
+	while (++i < ret->max.y)
+		if ((ret->field[i] = (t_point*)malloc(sizeof(t_point) * ret->max.x)) == NULL)
+			return (free_mlx_ptr(&ret));
 	i = 0;
-	fd = open(argv[1], 0);
-	while (get_next_line(fd, &line))
+	fd = open(av[1], 0);
+	while ((gnl_ret = get_next_line(fd, &line)) > 0)
 	{
 		j = 0;
 		k = 0;
 		while (line[j])
 		{
-			table[i][k] = ft_atoi(&line[j]);
+			ret->field[i][k].z = ft_atoi(&line[j]);
 			k++;
 			while (line[j] && line[j] != ' ')
 				j++;
@@ -53,41 +55,20 @@ t_return_read_file	read_file(int argc, char **argv)
 		}
 		i++;
 	}
-	/* *matr = (int **)malloc(sizeof(int *) * 11);
-	i = -1;
-	while (++i < 11)
-		*matr[i] = (int *)malloc(sizeof(int) * 19);
-	i = 0;
-	while (i < 11)
+	if (gnl_ret == -1)
 	{
-		j = 0;
-		while (j < 19)
-		{
-			*matr[i][j] = table[i][j];
-			j++;
-		}
-		i++;
+		ft_putendl("Reading ERROR!");
+		return (free_mlx_ptr(&ret));
 	}
-
-
-	i = 0;
-	while (i < 11)
+	if (ft_strequ(av[2], "0"))
+		ret->mode = 0;
+	else if (ft_strequ(av[2], "1"))
+		ret->mode = 1;
+	else
 	{
-		j = 0;
-		while (j < 19)
-		{
-			ft_putnbr(*matr[i][j]);
-			if (*matr[i][j] == 0)
-				ft_putchar(' ');
-			ft_putchar(' ');
-			j++;
-		}
-		ft_putchar('\n');
-		i++;
-	}*/
+		ft_putendl("ARGS ERROR!");
+		return (free_mlx_ptr(&ret));
+	}
 	close(fd);
-	ret.matr = table;
-	ret.ret_i = ret_i;
-	ret.ret_j = ret_j;
 	return (ret);
 }

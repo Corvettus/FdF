@@ -1,0 +1,118 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hotkeys.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tlynesse <tlynesse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/04 09:44:50 by tlynesse          #+#    #+#             */
+/*   Updated: 2019/11/04 17:53:17 by tlynesse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "fdf.h"
+
+
+int		ft_key_events(int key, t_mlx *mlx)
+{
+    int i;
+    int j;
+
+    i = -1;
+	if (key == 53 || key == 49)
+		exit(EXIT_SUCCESS);
+	else if (key == 1 || key == 126)
+	{
+		while (++i < mlx->max.y)
+        {
+            j = -1;
+            while (++j < mlx->max.x)
+                mlx->field[i][j].y -= 10;
+        }
+	}
+	else if (key == 0 || key == 123)
+	{
+		while (++i < mlx->max.y)
+        {
+            j = -1;
+            while (++j < mlx->max.x)
+                mlx->field[i][j].x -= 10;
+        }
+	}
+	else
+		return (ft_key_events_2(key, mlx));
+}
+
+void	ft_key_events_2(int key, t_mlx *mlx)
+{
+	int i;
+    int j;
+
+	i = -1;
+	if (key == 1 || key == 125)
+	{
+		while (++i < mlx->max.y)
+        {
+            j = -1;
+            while (++j < mlx->max.x)
+                mlx->field[i][j].y += 10;
+        }
+	}
+	else if (key == 2 || key == 124)
+	{
+		while (++i < mlx->max.y)
+        {
+            j = -1;
+            while (++j < mlx->max.x)
+                mlx->field[i][j].x += 10;
+        }
+	}
+	else
+		return (ft_key_events_3(key, mlx));
+}
+
+void	ft_key_events_3(int key, t_mlx *mlx)
+{
+	if (key == 18)
+        mlx->max.color -= 10;
+	else if (key == 19)
+        mlx->max.color += 10;
+	else if (key == 20)
+        mlx->min_color -= 10;
+	else if (key == 21)
+        mlx->min_color += 10;
+	else if (key == 36 || key == 76)
+		mlx->mode = (mlx->mode + 1) % 2;
+    return (0);
+}
+
+int ft_key_events_4(int key, t_mlx *mlx)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	if (key == 12)
+	{
+		while (++i < mlx->max.z)
+	   	{
+			j = -1;
+			while (++j < mlx->max.z)
+				mlx->field[i][j].y *= 5;
+		}
+	}
+	else if (key == 14)
+	{
+		while (++i < mlx->max.y)
+		{
+			j = -1;
+			while (++j < mlx->max.z)
+				mlx->field[i][j].z /= 5;
+		}
+	}
+	else if (key == 36 || key == 76)
+	{
+		mlx->mode = (mlx->mode + 1) % 2;
+	}
+	return (0);
+}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medesmon <medesmon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tlynesse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/20 04:33:51 by medesmon          #+#    #+#             */
-/*   Updated: 2019/09/20 04:33:53 by medesmon         ###   ########.fr       */
+/*   Created: 2018/11/26 11:16:11 by tlynesse          #+#    #+#             */
+/*   Updated: 2018/12/09 12:20:12 by tlynesse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,26 @@
 
 t_list	*ft_lstnew(void const *content, size_t content_size)
 {
-	t_list	*newlist;
+	t_list	*new_lst;
 
-	if (!(newlist = (t_list *)ft_memalloc(sizeof(t_list))))
-		return (NULL);
-	if (content == NULL)
+	if (!(new_lst = (t_list*)malloc(sizeof(t_list))))
+		return (0);
+	if (!content || !content_size)
 	{
-		newlist->content = NULL;
-		newlist->content_size = 0;
+		new_lst->content = 0;
+		new_lst->content_size = 0;
 	}
 	else
 	{
-		newlist->content = (t_list *)ft_memalloc(sizeof(*content) *
-				content_size);
-		if (newlist->content == NULL)
+		if (!(new_lst->content = (void*)malloc(content_size * sizeof(void))))
 		{
-			free(newlist);
-			return (NULL);
+			free(new_lst);
+			new_lst = 0;
+			return (0);
 		}
-		ft_memcpy((newlist->content), content, content_size);
-		newlist->content_size = content_size;
+		ft_memcpy(new_lst->content, (void*)content, content_size);
+		new_lst->content_size = content_size;
 	}
-	newlist->next = NULL;
-	return (newlist);
+	new_lst->next = 0;
+	return (new_lst);
 }

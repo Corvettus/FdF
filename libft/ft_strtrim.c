@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medesmon <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tlynesse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/15 10:42:29 by medesmon          #+#    #+#             */
-/*   Updated: 2019/01/20 19:15:49 by medesmon         ###   ########.fr       */
+/*   Created: 2018/11/27 10:01:12 by tlynesse          #+#    #+#             */
+/*   Updated: 2018/12/05 14:45:54 by tlynesse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,28 @@
 
 char	*ft_strtrim(char const *s)
 {
-	char				*mem;
-	unsigned int		i;
-	unsigned int		j;
-	unsigned int		k;
+	char	*res;
+	size_t	i;
+	size_t	buf;
 
 	if (!s)
 		return (0);
 	i = 0;
-	k = 0;
+	buf = 0;
 	while (s[i] == ' ' || s[i] == '\n' || s[i] == '\t')
 		i++;
-	j = 0;
-	while (s[ft_strlen(s) - j - 1] == ' ' || s[ft_strlen(s) - j - 1] == '\n'
-			|| s[ft_strlen(s) - j - 1] == '\t')
-		j++;
-	if ((int)ft_strlen(s) - (int)i - (int)j < 1)
-		return (ft_strdup("\0"));
-	if (!(mem = ft_memalloc((size_t)ft_strlen((char*)s) + 1 - i - j)))
-		return (NULL);
-	while (i < ft_strlen(s) - j)
-		mem[k++] = s[i++];
-	mem[k] = '\0';
-	return (mem);
+	while (s[i++])
+		buf++;
+	i -= 2;
+	while ((s[i] == ' ' || s[i] == '\n' || s[i] == '\t') && buf)
+	{
+		buf--;
+		i--;
+	}
+	if (!(res = (char*)malloc((buf + 1) * sizeof(char))))
+		return (0);
+	res[buf--] = 0;
+	while (buf + 1)
+		res[buf--] = (char)s[i--];
+	return (res);
 }

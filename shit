@@ -1,0 +1,194 @@
+
+int	connect(void *mlx_ptr, void *win_ptr, int x0, int y0, int x1, int y1)
+{
+	int		deltax;
+	int		deltay;
+	int		error;
+	int		deltaerror;
+	int		x, y;
+	int		diry;
+
+	deltax = ft_abs(x1 - x0); //20
+	deltay = ft_abs(y1 - y0); //20
+	error = 0;
+	deltaerror = deltay; //20
+	y = y0; //70
+	diry = y1 - y0; //-20
+	if (diry > 0)
+		diry = 1;
+	if (diry < 0)
+		diry = -1; //+
+	x = x0; //320
+	if (x < x1)
+	{
+		while (x < x1)
+		{
+			mlx_pixel_put(mlx_ptr, win_ptr, x, y, 0xFFFFFF);
+			error = error + deltaerror;
+			if (2 * error >= deltax)
+			{
+				y = y + diry;
+				error = error - deltax;
+			}
+			x++;
+		}
+	}
+	else if (x > x1)
+	{
+		while (x > x1)
+		{
+			mlx_pixel_put(mlx_ptr, win_ptr, x, y, 0xFFFFFF);
+			error = error + deltaerror;
+			if (2 * error >= deltax)
+			{
+				y = y + diry;
+				error = error - deltax;
+			}
+			x--;
+		}
+	}
+	else if (y < y1)
+	{
+		while (y < y1)
+		{
+			mlx_pixel_put(mlx_ptr, win_ptr, x, y, 0xFFFFFF);
+			y++;
+		}
+	}
+	else
+	{
+		while (y > y1)
+		{
+			mlx_pixel_put(mlx_ptr, win_ptr, x, y, 0xFFFFFF);
+			y--;
+		}
+	}
+	return (0);
+}
+
+int	connect_2(void *mlx_ptr, void *win_ptr, double x0, double y0, double x1, double y1)
+{
+	double	deltax;
+	double	deltay;
+	double	error;
+	double	deltaerror;
+	double	x, y;
+	double	diry;
+
+	deltax = ft_abs(x1 - x0); //20
+	deltay = ft_abs(y1 - y0); //20
+	error = 0;
+	deltaerror = deltay; //20
+	y = y0; //70
+	diry = y1 - y0; //-20
+	if (diry > 0)
+		diry = 1;
+	if (diry < 0)
+		diry = -1; //+
+	x = x0; //320
+	if (x < x1)
+	{
+		while (x < x1)
+		{
+			mlx_pixel_put(mlx_ptr, win_ptr, x, y, 0xFFFFFF);
+			error = error + deltaerror;
+			if (2 * error >= deltax)
+			{
+				y = y + diry;
+				error = error - deltax;
+			}
+			x++;
+		}
+	}
+	else
+	{
+		while (x > x1)
+		{
+			mlx_pixel_put(mlx_ptr, win_ptr, x, y, 0xFFFFFF);
+			error = error + deltaerror;
+			if (2 * error >= deltax)
+			{
+				y = y + diry;
+				error = error - deltax;
+			}
+			x--;
+		}
+	}
+	return (0);
+}
+
+void	print_oxoy(void *mlx_ptr, void *win_ptr)
+{
+	int	x;
+	int	y;
+	int	i;
+
+	i = 0;
+	while (i < 2000)
+	{
+		mlx_string_put(mlx_ptr, win_ptr, i, 10, 0xFFFFFF, ft_itoa(i));
+		connect(mlx_ptr, win_ptr, 0, i, 2000, i);
+		connect(mlx_ptr, win_ptr, i, 0, i, 2000);
+		mlx_string_put(mlx_ptr, win_ptr, 10, i, 0xFFFFFF, ft_itoa(i));
+		i += 100;
+	}
+	connect(mlx_ptr, win_ptr, 0, 0, 2000, 0);
+	connect(mlx_ptr, win_ptr, 0, 0, 0, 2000);
+}
+
+void	move_all_left(t_koord **vertex, void *mlx_ptr, void *win_ptr, int len_i, int len_j, int mode)
+{
+	int		i;
+	int		j;
+	t_line	line;
+	int		prev_x1;
+	int		prev_x2;
+	int		prev_y1;
+	int		prev_y2;
+
+	mlx_clear_window(mlx_ptr, win_ptr);
+	i = 0;
+	while (i < len_i)
+	{
+		j = 0;
+		while (j < len_j)
+		{
+			if (j < len_j - 1)
+			{
+				line.k1 = vertex[i][j];
+				line.k2 = vertex[i][j + 1];
+				prev_x1 = line.k1.x;
+				prev_x2 = line.k2.x;
+				prev_y1 = line.k1.y;
+				prev_y2 = line.k2.y;
+				if (mode == 1)
+				{
+					line.k1.x = (prev_x1 - prev_y1) * cos(0.523599);
+					line.k1.y = (prev_x1 + prev_y1) * sin(0.523599) - line.k1.z;
+					line.k2.x = (prev_x2 - prev_y2) * cos(0.523599);
+					line.k2.y = (prev_x2 + prev_y2) * sin(0.523599) - line.k2.z;
+				}
+				draw_line(mlx_ptr, win_ptr, line);
+			}
+			if (i < len_i - 1)
+			{
+				line.k1 = vertex[i][j];
+				line.k2 = vertex[i + 1][j];
+				prev_x1 = line.k1.x;
+				prev_x2 = line.k2.x;
+				prev_y1 = line.k1.y;
+				prev_y2 = line.k2.y;
+				if (mode == 1)
+				{
+ 					line.k1.x = (prev_x1 - prev_y1) * cos(0.523599);
+					line.k1.y = (prev_x1 + prev_y1) * sin(0.523599) - line.k1.z;
+					line.k2.x = (prev_x2 - prev_y2) * cos(0.523599);
+					line.k2.y = (prev_x2 + prev_y2) * sin(0.523599) - line.k2.z;
+				}
+				draw_line(mlx_ptr, win_ptr, line);
+			}
+			j++;
+		}
+		i++;
+	}
+}

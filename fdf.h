@@ -6,54 +6,57 @@
 /*   By: tlynesse <tlynesse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/03 22:17:41 by tlynesse          #+#    #+#             */
-/*   Updated: 2019/11/04 06:41:12 by tlynesse         ###   ########.fr       */
+/*   Updated: 2019/11/04 18:48:47 by tlynesse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
+# include "minilibx_macos/mlx.h"
 # include "./libft/libft.h"
+# include "get_next_line.h"
+# include <math.h>
+# include <stdio.h>
+# include <stdlib.h>
+#include <fcntl.h>
+
 # define WIN_WIDTH 1920
 # define WIN_HIEGHT 1080
-# define X_WIDTH (WIN_WIDTH * WIN_WIDTH / WIN_HIEGHT)
-# define X_HEIGHT (WIN_HIEGHT * WIN_WIDTH / WIN_HIEGHT)
 
-typedef struct	s_koord
+typedef struct	s_point
 {
 	int	x;
 	int	y;
 	int	z;
 	int color;
-}				t_koord;
+}				t_point;
 
 typedef struct	s_line
 {
-	struct s_koord	k1;
-	struct s_koord	k2;
+	struct s_point	a;
+	struct s_point	b;
 }				t_line;
-
-typedef struct	s_field
-{
-	struct s_koord	**vertex;
-}				t_field;
-
-typedef struct	s_return_read_file
-{
-	int				**matr;
-	int				ret_i;
-	int				ret_j;
-}				t_return_read_file;
-
 typedef struct	s_mlx
 {
 	void	*mlx;
-	
+	t_point	**field;
+	int		mode;
+	t_point	max;
+	int		min_color;
+	int		delta_px;
 }				t_mlx;
 
+t_mlx	*read_file(int ac, char **av);
 
-t_return_read_file	read_file();
+void	fill_color(t_mlx *mlx);
 
-t_koord	**make_field(int i, int j, int **matr, int *max_z);
-void	fill_color(int len_i, int len_j, t_koord **vertex, int max_z, int zero_color, int max_color);
+double	percent(int start, int end, int current);
+int		get_light(int start, int end, double percentage);
+int		get_color(t_point current, t_point start, t_point end, t_point delta);
+
+int		ft_key_events(int key, t_mlx *mlx);
+int		ft_mouse_events(int button, int x, int y, t_mlx *mlx);
+
+t_mlx	*free_mlx_ptr(t_mlx **mlx);
 
 #endif

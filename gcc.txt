@@ -1,1 +1,0 @@
-gcc  *.c -L./minilibx_macos -lmlx -framework OpenGL -framework AppKit libft/*.c
