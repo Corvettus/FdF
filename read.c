@@ -40,7 +40,6 @@ t_return_read_file	read_file(int argc, char **argv)
 	fd = open(argv[1], 0);
 	while (get_next_line(fd, &line))
 	{
-		ft_putendl(line);
 		j = 0;
 		k = 0;
 		while (line[j])
@@ -53,7 +52,6 @@ t_return_read_file	read_file(int argc, char **argv)
 				j++;
 		}
 		i++;
-		print_error;
 	}
 	/* *matr = (int **)malloc(sizeof(int *) * 11);
 	i = -1;
