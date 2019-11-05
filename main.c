@@ -1,35 +1,76 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tlynesse <tlynesse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/05 03:21:25 by tlynesse          #+#    #+#             */
+/*   Updated: 2019/11/05 15:24:54 by tlynesse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 # include "fdf.h"
 
+void	ft_px_put(t_mlx *mlx, t_point point, int color)
+{
+	if (point.x >= 0 && point.x < WIN_WIDTH &&
+	point.y >= 0 && point.y < WIN_HIEGHT)
+		mlx->data[point.x + point.y * WIN_WIDTH] = color;
+		// *(unsigned int*)(mlx->data + point.x * mlx->bpp
+		// + point.y * mlx->sl) = color;
+}
+/* 
+void	fill_color(t_mlx *mlx)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < mlx->max.y)
+	{
+		j = 0;
+		while (j < mlx->max.x)
+		{
+			*(mlx->data + j + i * WIN_WIDTH) = mlx->min_color + (mlx->max.color - mlx->min_color) * mlx->field[i][j].z / mlx->max.z;
+			j++;
+		}
+		i++;
+	}
+}
+ */
 void	draw_line(t_mlx *mlx, void *win_ptr, t_line line)
 {
-	const int	deltaX = abs(line.b.x - line.a.x);
-	const int	deltaY = abs(line.b.y - line.a.y);
 	const int	signX = line.a.x < line.b.x ? 1 : -1;
 	const int	signY = line.a.y < line.b.y ? 1 : -1;
 	t_point		tmp;
 	t_point		delta;
 
-	int error = deltaX - deltaY;
+	(void)*win_ptr;
+	int error;
+
 	tmp.x = line.a.x;
 	tmp.y = line.a.y;
 	tmp.z = line.a.z;
 	tmp.color = line.a.color;
-	delta.x = deltaX;
-	delta.y = deltaY;
-	delta.z = abs(line.b.z - line.a.z);
-	delta.color = abs(line.b.color - line.a.color);
+	delta.x = ft_abs(line.b.x - line.a.x);
+	delta.y = ft_abs(line.b.y - line.a.y);
+	delta.z = ft_abs(line.b.z - line.a.z);
+	delta.color = ft_abs(line.b.color - line.a.color);
+	error = delta.x - delta.y;
 	fill_color(mlx);
-	while(tmp.x != line.b.x || tmp.y != line.b.y) 
+	while(tmp.x != line.b.x || tmp.y != line.b.y)
 	{
-		mlx_pixel_put(mlx->mlx, win_ptr, tmp.x, tmp.y, get_color(tmp, line.a, line.b, delta));
-		if(error * 2 > -deltaY) 
+		//mlx_pixel_put(mlx->mlx, win_ptr, tmp.x * 5 + 500, tmp.y * 5 + 500, 0xFFFFFF/*get_color(tmp, line.a, line.b, delta)*/);
+		ft_px_put(mlx, tmp, get_color(tmp, line.a, line.b, delta));
+		if(error * 2 > -delta.y)
 		{
-			error -= deltaY;
+			error -= delta.y;
 			tmp.x += signX;
 		}
-		if(error * 2 < deltaX) 
+		if(error * 2 < delta.x) 
 		{
-			error += deltaX;
+			error += delta.x;
 			tmp.y += signY;
 		}
 	}
@@ -104,7 +145,10 @@ int		main(int ac, char **av)
 		return (0);
 	mlx = read_file(ac, av);
 	mlx->mlx = mlx_init();
+	printf("test\n");
 	win_ptr = mlx_new_window(mlx->mlx, WIN_WIDTH, WIN_HIEGHT, "My Window");
+	mlx->img = mlx_new_image(mlx->mlx, WIN_WIDTH, WIN_HIEGHT);
+	mlx->data = (int *)mlx_get_data_addr(mlx->img, &(mlx->bpp), &(mlx->sl), &(mlx->endn));
 	i = -1;
 	while (++i < mlx->max.y)
 	{
@@ -129,6 +173,7 @@ int		main(int ac, char **av)
 			}
 		}
 	}
+	mlx_put_image_to_window(mlx->mlx, win_ptr, mlx->img, 0, 0);
 	mlx_hook(win_ptr, 2, 0, ft_key_events, mlx->mlx);
 	mlx_loop(mlx->mlx);
 	return (0);

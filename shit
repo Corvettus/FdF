@@ -146,49 +146,4 @@ void	move_all_left(t_koord **vertex, void *mlx_ptr, void *win_ptr, int len_i, in
 	int		prev_y1;
 	int		prev_y2;
 
-	mlx_clear_window(mlx_ptr, win_ptr);
-	i = 0;
-	while (i < len_i)
-	{
-		j = 0;
-		while (j < len_j)
-		{
-			if (j < len_j - 1)
-			{
-				line.k1 = vertex[i][j];
-				line.k2 = vertex[i][j + 1];
-				prev_x1 = line.k1.x;
-				prev_x2 = line.k2.x;
-				prev_y1 = line.k1.y;
-				prev_y2 = line.k2.y;
-				if (mode == 1)
-				{
-					line.k1.x = (prev_x1 - prev_y1) * cos(0.523599);
-					line.k1.y = (prev_x1 + prev_y1) * sin(0.523599) - line.k1.z;
-					line.k2.x = (prev_x2 - prev_y2) * cos(0.523599);
-					line.k2.y = (prev_x2 + prev_y2) * sin(0.523599) - line.k2.z;
-				}
-				draw_line(mlx_ptr, win_ptr, line);
-			}
-			if (i < len_i - 1)
-			{
-				line.k1 = vertex[i][j];
-				line.k2 = vertex[i + 1][j];
-				prev_x1 = line.k1.x;
-				prev_x2 = line.k2.x;
-				prev_y1 = line.k1.y;
-				prev_y2 = line.k2.y;
-				if (mode == 1)
-				{
- 					line.k1.x = (prev_x1 - prev_y1) * cos(0.523599);
-					line.k1.y = (prev_x1 + prev_y1) * sin(0.523599) - line.k1.z;
-					line.k2.x = (prev_x2 - prev_y2) * cos(0.523599);
-					line.k2.y = (prev_x2 + prev_y2) * sin(0.523599) - line.k2.z;
-				}
-				draw_line(mlx_ptr, win_ptr, line);
-			}
-			j++;
-		}
-		i++;
-	}
 }

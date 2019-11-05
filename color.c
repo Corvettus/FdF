@@ -6,7 +6,7 @@
 /*   By: tlynesse <tlynesse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/04 08:33:12 by tlynesse          #+#    #+#             */
-/*   Updated: 2019/11/04 18:37:30 by tlynesse         ###   ########.fr       */
+/*   Updated: 2019/11/04 21:13:23 by tlynesse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,3 +66,52 @@ void	fill_color(t_mlx *mlx)
 		i++;
 	}
 }
+/* 
+void    ft_paint(void *win_ptr, t_mlx *mlx)
+{
+    mlx_clear_window(mlx_ptr, win_ptr);
+	i = 0;
+	while (i < len_i)
+	{
+		j = 0;
+		while (j < len_j)
+		{
+			if (j < len_j - 1)
+			{
+				line.k1 = vertex[i][j];
+				line.k2 = vertex[i][j + 1];
+				prev_x1 = line.k1.x;
+				prev_x2 = line.k2.x;
+				prev_y1 = line.k1.y;
+				prev_y2 = line.k2.y;
+				if (mode == 1)
+				{
+					line.k1.x = (prev_x1 - prev_y1) * cos(0.523599);
+					line.k1.y = (prev_x1 + prev_y1) * sin(0.523599) - line.k1.z;
+					line.k2.x = (prev_x2 - prev_y2) * cos(0.523599);
+					line.k2.y = (prev_x2 + prev_y2) * sin(0.523599) - line.k2.z;
+				}
+				draw_line(mlx_ptr, win_ptr, line);
+			}
+			if (i < len_i - 1)
+			{
+				line.k1 = vertex[i][j];
+				line.k2 = vertex[i + 1][j];
+				prev_x1 = line.k1.x;
+				prev_x2 = line.k2.x;
+				prev_y1 = line.k1.y;
+				prev_y2 = line.k2.y;
+				if (mode == 1)
+				{
+ 					line.k1.x = (prev_x1 - prev_y1) * cos(0.523599);
+					line.k1.y = (prev_x1 + prev_y1) * sin(0.523599) - line.k1.z;
+					line.k2.x = (prev_x2 - prev_y2) * cos(0.523599);
+					line.k2.y = (prev_x2 + prev_y2) * sin(0.523599) - line.k2.z;
+				}
+				draw_line(mlx_ptr, win_ptr, line);
+			}
+			j++;
+		}
+		i++;
+	}
+} */

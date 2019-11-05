@@ -6,7 +6,7 @@
 /*   By: tlynesse <tlynesse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/03 22:17:41 by tlynesse          #+#    #+#             */
-/*   Updated: 2019/11/04 18:48:47 by tlynesse         ###   ########.fr       */
+/*   Updated: 2019/11/05 10:13:40 by tlynesse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct	s_line
 	struct s_point	a;
 	struct s_point	b;
 }				t_line;
+
 typedef struct	s_mlx
 {
 	void	*mlx;
@@ -44,6 +45,11 @@ typedef struct	s_mlx
 	t_point	max;
 	int		min_color;
 	int		delta_px;
+	void	*img;
+	int		bpp;
+	int		sl;
+	int		endn;
+	int		*data; 
 }				t_mlx;
 
 t_mlx	*read_file(int ac, char **av);

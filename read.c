@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   read.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tlynesse <tlynesse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/05 15:18:33 by tlynesse          #+#    #+#             */
+/*   Updated: 2019/11/05 15:25:44 by tlynesse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 # include "fdf.h"
 
 t_mlx	*read_file(int ac, char **av)
@@ -7,7 +19,6 @@ t_mlx	*read_file(int ac, char **av)
 	char	*line;
 	int		i;
 	int		j;
-	int		prev_k;
 	int		k;
 	int		gnl_ret;
 
@@ -16,7 +27,7 @@ t_mlx	*read_file(int ac, char **av)
 		return (free_mlx_ptr(&ret));
 	fd = open(av[1], 0);
 	i = 0;
-	while (get_next_line(fd, &line))
+	while ((gnl_ret = get_next_line(fd, &line)) > 0)
 	{
 		j = 0;
 		k = 0;
@@ -30,6 +41,11 @@ t_mlx	*read_file(int ac, char **av)
 		}
 		i++;
 	}
+	if (gnl_ret == -1)
+	{
+		ft_putendl("Reading ERROR!");
+		return (free_mlx_ptr(&ret));
+	}
 	ret->max.y = i;
 	ret->max.x = k;
 	if ((ret->field = (t_point**)malloc(sizeof(t_point*) * ret->max.y)) == NULL)
@@ -39,6 +55,7 @@ t_mlx	*read_file(int ac, char **av)
 		if ((ret->field[i] = (t_point*)malloc(sizeof(t_point) * ret->max.x)) == NULL)
 			return (free_mlx_ptr(&ret));
 	i = 0;
+	close(fd);
 	fd = open(av[1], 0);
 	while ((gnl_ret = get_next_line(fd, &line)) > 0)
 	{
@@ -70,5 +87,7 @@ t_mlx	*read_file(int ac, char **av)
 		return (free_mlx_ptr(&ret));
 	}
 	close(fd);
+	ret->min_color = 0xFFFFFF;
+	ret->max.color = 0xFFFFFF;
 	return (ret);
 }

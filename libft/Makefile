@@ -6,7 +6,7 @@
 #    By: tlynesse <tlynesse@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/24 03:43:47 by tlynesse          #+#    #+#              #
-#    Updated: 2019/10/19 16:11:51 by tlynesse         ###   ########.fr        #
+#    Updated: 2019/11/04 19:18:47 by tlynesse         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -154,9 +154,9 @@ FLS = -Wall -Wextra -Werror
 all: $(NAME)
 
 $(NAME):
-	@gcc -c $(FLS) $(SRC)
-	@ar -rc $(NAME) $(OBJ)
-	@ranlib $(NAME)
+	gcc -c $(FLS) $(SRC)
+	ar -rc $(NAME) $(OBJ)
+	ranlib $(NAME)
 
 clean:
 	@/bin/rm -f $(OBJ)
